@@ -1,0 +1,17 @@
+{
+  "name": "tecontents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.12.14",
+    "node-html-parser": "^1.1.16",
+    "yandex-translate": "^2.1.3"
+  }
+}
