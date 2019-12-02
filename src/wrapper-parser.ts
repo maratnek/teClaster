@@ -53,7 +53,7 @@ export let getLanguage = (data: string): ELanguage => {
 
   let text = root.text;
   let lang = lngDetector.detect(text);
-//   console.log(lang[0][0]);
+   console.log(lang[0][0]);
   if (lang && lang[0] && lang[0][0]) {
     let result = lang[0][0];
     if (result == "english") return ELanguage.en;

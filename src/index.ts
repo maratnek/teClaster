@@ -15,7 +15,7 @@ function lookFilesInDirectory(path_directory: string) {
     //   console.log(path_directory);
       fs.readdirSync(path_directory).forEach((file, i) => {
         // console.log(`\t${file}`);
-        if (i < 10) 
+        if (i > 5 && i < 15) 
             lookFilesInDirectory(`${path_directory}/${file}`);
       });
     //   console.log();
@@ -31,7 +31,7 @@ function lookFilesInDirectory(path_directory: string) {
 let path_view = './';
 
 let start = async () => {
-  await lookFilesInDirectory(path_files);
+  lookFilesInDirectory(path_files);
   console.log('Elem')
   files.forEach(elem => {
     //   console.log(elem);

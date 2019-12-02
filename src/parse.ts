@@ -47,7 +47,7 @@ let addLang = (filename:string, data: string) => {
             languages[0].articles.push(path.basename(filename));
             languages[0].count++;
             break;
-          case ELanguage.en:
+          case ELanguage.ru:
             languages[1].articles.push(path.basename(filename));
             languages[1].count++;
             break;
