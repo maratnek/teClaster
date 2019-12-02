@@ -11,13 +11,21 @@ const Filequeue = require('filequeue');
 const fq = new Filequeue(200); // max number of files to open at once
 
 let languages : any = [];
+let languageClear = () => {
+languages = [];
 languages.push({"lang_code":"en", "articles":[], "count":0});
 languages.push({"lang_code":"ru", "articles":[], "count":0});
 languages.push({"lang_code":"other", "articles":[], "count":0});
-
-export let getLangOutput = () => {
-    return JSON.stringify(languages, null, '  ');
 }
+
+export function emptyLanguages() {
+let languages = [];
+languages.push({"lang_code":"en", "articles":[], "count":0});
+languages.push({"lang_code":"ru", "articles":[], "count":0});
+languages.push({"lang_code":"other", "articles":[], "count":0});
+    return languages; 
+}
+
 
 function createDirRecursively(dir: string) {
     if (!fs.existsSync(dir)) {        
@@ -80,3 +88,13 @@ export let parseHtml = (filename : string)=>{
     // console.log(JSON.stringify(languages));
 
 };
+
+export function getLangOutput(files : any) {
+    languageClear();
+    files.forEach(elem => {
+      //   console.log(elem);
+      parseHtml(elem);
+    });
+    // return JSON.stringify(languages, null, '  ');
+    return languages;
+}
