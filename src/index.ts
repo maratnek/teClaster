@@ -21,7 +21,9 @@ function lookFilesInDirectory(path_directory: string) {
     //   console.log();
     } else if (stat.isFile()) {
       if (path.extname(path_directory) == ".html") 
+      {
           files.push(path_directory);
+      }
     }
   } catch (err) {
     console.log("Stat error ", err);
@@ -33,7 +35,7 @@ let path_view = './';
 let start = async () => {
   lookFilesInDirectory(path_files);
   console.log('Elem')
-  files.forEach(elem => {
+  files.forEach(elem  => {
     //   console.log(elem);
       parseHtml(elem);
   })
