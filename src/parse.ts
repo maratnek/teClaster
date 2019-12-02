@@ -1,5 +1,8 @@
 import {ya_tr} from './language';
-import {getTitle, getArticleStruct, getHtmlStruct} from './wrapper-parser';
+import {getTitle, 
+    getArticleStruct, 
+    getLanguage,
+    getHtmlStruct} from './wrapper-parser';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -18,7 +21,7 @@ let createOutput = (filename : string, data : string) => {
         let out_filename : string = folder + '/' + path.basename(filename);
         // console.log('folder', folder);
         createDirRecursively(folder);
-        fq.writeFile(out_filename, data, (err) => {
+        fq.writeFile(out_filename, data, (err : any) => {
             if (err)
                 console.log('Error write file ', err);
         });
@@ -36,12 +39,15 @@ export let parseHtml = (filename : string)=>{
     // } catch(err) {
     //     console.log("Error read file ", err);
     // }
-    fq.readFile(filename, 'utf8', (err, data) => {
+    fq.readFile(filename, 'utf8', (err : any, data : string) => {
         if (err)
             return console.log('Error read file ', err);
         // getTitle(data);
         // let artStr : string = getArticleStruct(data);
-        createOutput(filename, getHtmlStruct(data));
+        // html struct files
+        // createOutput(filename, getHtmlStruct(data));
+        // define ru or en
+        createOutput(filename, getLanguage(data));
     });
 
 

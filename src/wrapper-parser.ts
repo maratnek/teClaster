@@ -1,4 +1,6 @@
 import { parse } from 'node-html-parser';
+
+import {ya_tr} from './language';
  
  
 export let getTitle = (data : string)=>{
@@ -35,6 +37,35 @@ export let getHtmlStruct = (data: string) : string => {
     // let article = root.querySelector('article');
     // console.log(article.structure);
     return root.structure;
+}
+
+export enum ELanguage {
+    en = 1,
+    ru,
+    other
+}
+
+export let getLanguage = (data: string) : ELanguage => {
+    const root : any = parse(data);
+    // let article = root.querySelector('article');
+
+    // console.log('text', root.text);
+
+    let text = root.text;
+    ya_tr.detect(text, (err : any, result : any)=> {
+        if (err)
+            return console.log('Error ', err);
+        // console.log(result.lang);
+        console.log('Language ', result.lang);
+        if (result.lang == 'en')
+            return ELanguage.en
+        else if (result.lang == 'ru')
+            return ELanguage.ru
+        else
+            return ELanguage.other
+    });
+    // console.log(article.structure);
+    // return root.structure;
 }
 
 // console.log(root.firstChild.structure);
