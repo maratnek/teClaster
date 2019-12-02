@@ -13,7 +13,7 @@ function lookFilesInDirectory(path_directory : string) {
                 console.log(path_directory)
                 fs.readdirSync(path_directory).forEach((file, i) => {
                     // console.log(`\t${file}`);
-                    if (i < 1)
+                    // if (i < 1)
                         lookFilesInDirectory(`${path_directory}/${file}`);
                 });
                 console.log();
