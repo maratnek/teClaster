@@ -1,6 +1,9 @@
 import { parse } from 'node-html-parser';
 
 import {ya_tr} from './language';
+
+const LanguageDetect = require('languagedetect');
+const lngDetector = new LanguageDetect();
  
  
 export let getTitle = (data : string)=>{
@@ -45,28 +48,18 @@ export enum ELanguage {
     other
 }
 
-export let getLanguage = (data: string) : ELanguage => {
-    const root : any = parse(data);
-    // let article = root.querySelector('article');
+export let getLanguage = (data: string): ELanguage => {
+  const root: any = parse(data);
 
-    // console.log('text', root.text);
+  let text = root.text;
+  let lang = lngDetector.detect(text);
+  console.log(lang[0][0]);
 
-    let text = root.text;
-    ya_tr.detect(text, (err : any, result : any)=> {
-        if (err)
-            return console.log('Error ', err);
-        // console.log(result.lang);
-        console.log('Language ', result.lang);
-        if (result.lang == 'en')
-            return ELanguage.en
-        else if (result.lang == 'ru')
-            return ELanguage.ru
-        else
-            return ELanguage.other
-    });
-    // console.log(article.structure);
-    // return root.structure;
-}
+  let result = lang[0][0];
+  if (result == "english") return ELanguage.en;
+  else if (result == "russian") return ELanguage.ru;
+  else return ELanguage.other;
+};
 
 // console.log(root.firstChild.structure);
 // ul#list
