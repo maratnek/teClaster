@@ -2,12 +2,22 @@ import {ya_tr} from './language';
 import {getTitle, 
     getArticleStruct, 
     getLanguage,
+    ELanguage,
     getHtmlStruct} from './wrapper-parser';
 import * as fs from 'fs';
 import * as path from 'path';
 
 const Filequeue = require('filequeue');
 const fq = new Filequeue(200); // max number of files to open at once
+
+let languages : any = [];
+languages.push({"lang_code":"en", "articles":[], "count":0});
+languages.push({"lang_code":"ru", "articles":[], "count":0});
+languages.push({"lang_code":"other", "articles":[], "count":0});
+
+export let getLangOutput = () => {
+    return JSON.stringify(languages, null, '  ');
+}
 
 function createDirRecursively(dir: string) {
     if (!fs.existsSync(dir)) {        
@@ -31,31 +41,42 @@ let createOutput = (filename : string, data : string) => {
 
 let new_folder :string = 'structure';
 
+let addLang = (filename:string, data: string) => {
+        switch (getLanguage(data)) {
+          case ELanguage.en:
+            languages[0].articles.push(path.basename(filename));
+            languages[0].count++;
+            break;
+          case ELanguage.en:
+            languages[1].articles.push(path.basename(filename));
+            languages[1].count++;
+            break;
+          case ELanguage.other:
+            languages[2].articles.push(path.basename(filename));
+            languages[2].count++;
+            break;
+          default:
+            console.log('Not known lang');
+            break;
+        }
+};
+
 export let parseHtml = (filename : string)=>{
     // console.log('Html file parse and check language', filename);
-    // try {
-    //     let data: string = fs.readFileSync(filename, 'utf8');
-    //     createOutput(filename, getHtmlStruct(data));
-    // } catch(err) {
-    //     console.log("Error read file ", err);
-    // }
-    fq.readFile(filename, 'utf8', (err : any, data : string) => {
-        if (err)
-            return console.log('Error read file ', err);
-        // getTitle(data);
-        // let artStr : string = getArticleStruct(data);
-        // html struct files
+    try {
+        let data: string = fs.readFileSync(filename, 'utf8');
         // createOutput(filename, getHtmlStruct(data));
-        // define ru or en
-        createOutput(filename, getLanguage(data));
-    });
+        addLang(filename, data);
+    } catch(err) {
+        console.log("Error read file ", err);
+    }
 
-
-
-    // let title : string = '';
-    // ya_tr.detect(title, (err, result)=> {
+    // fq.readFile(filename, 'utf8', (err : any, data : string) => {
     //     if (err)
-    //         return console.log('Error ', err);
-    //     console.log(result);
+    //         return console.log('Error read file ', err);
+    //     addLang(filename, data);
     // });
+
+    // console.log(JSON.stringify(languages));
+
 };

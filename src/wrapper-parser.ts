@@ -1,6 +1,6 @@
 import { parse } from 'node-html-parser';
 
-import {ya_tr} from './language';
+// import {ya_tr} from './language';
 
 const LanguageDetect = require('languagedetect');
 const lngDetector = new LanguageDetect();
@@ -53,12 +53,15 @@ export let getLanguage = (data: string): ELanguage => {
 
   let text = root.text;
   let lang = lngDetector.detect(text);
-  console.log(lang[0][0]);
+//   console.log(lang[0][0]);
+  if (lang && lang[0] && lang[0][0]) {
+    let result = lang[0][0];
+    if (result == "english") return ELanguage.en;
+    else if (result == "russian") return ELanguage.ru;
+    else return ELanguage.other;
+  }
+  return ELanguage.other;
 
-  let result = lang[0][0];
-  if (result == "english") return ELanguage.en;
-  else if (result == "russian") return ELanguage.ru;
-  else return ELanguage.other;
 };
 
 // console.log(root.firstChild.structure);
